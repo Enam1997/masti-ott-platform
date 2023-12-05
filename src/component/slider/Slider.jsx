@@ -1,14 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import GlobalApi from "../../services/GlobalApi";
+import "./slider.css";
 
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+// import required modules
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+
 const Image_BASE_URL = "https://image.tmdb.org/t/p/original";
-const  screenWidth = window.innerWidth
+const screenWidth = window.innerWidth;
 
 const Slider = () => {
   const [movieList, setMovieList] = useState([]);
-  const elementRef = useRef()
+  const elementRef = useRef();
 
   const getTrendingMovies = () => {
     GlobalApi.getTrendingVideos.then((resp) => {
@@ -20,30 +31,73 @@ const Slider = () => {
     getTrendingMovies();
   }, []);
 
+  const slideRight = (element) => {
+    element.scrollLeft += screenWidth - 110;
+  };
 
-  const slideRight = (element) =>{
-    element.scrollLeft += screenWidth -110;
-  }
+  const slideLeft = (element) => {
+    element.scrollLeft -= screenWidth - 110;
+  };
 
-  const slideLeft = (element) =>{
-    element.scrollLeft -= screenWidth -110;
-  }
+  //
+
+  const progressCircle = useRef(null);
+  const progressContent = useRef(null);
+  const onAutoplayTimeLeft = (s, time, progress) => {
+    progressCircle.current.style.setProperty("--progress", 1 - progress);
+    progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+  };
 
   return (
-    <div>
-      <HiChevronDoubleLeft className="hidden md:block text-white text-[30px] absolute mx-8 mt-[150px] cursor-pointer" onClick={()=>slideLeft(elementRef.current)}/>
-      <HiChevronDoubleRight className="hidden md:block text-white text-[30px] absolute mx-8 mt-[150px] cursor-pointer right-0" onClick={()=>slideRight(elementRef.current)} />
-
-      <div className="flex overflow-x-auto w-full px-16 py-4 scrollbar-none scroll-smooth" ref={elementRef}>
+    <section className=" md:px-16 py-4 ">
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 3500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
+        onAutoplayTimeLeft={onAutoplayTimeLeft}
+        className="mySwiper"
+      >
         {movieList.map((item, index) => (
-          <img
-            src={Image_BASE_URL + item.backdrop_path}
-            alt=""
-            className="min-w-full md:h-[310px] object-cover object-left-top mr-5 rounded-md hover:border-[4px] border-gray-400 transition-all duration-100 ease-in"
-          />
+          <SwiperSlide>
+            {" "}
+            <img
+              src={Image_BASE_URL + item.backdrop_path}
+              alt=""
+              className="min-w-full md:h-[310px] object-cover object-left-top  rounded-md hover:border-[4px] border-gray-400 transition-all duration-100 ease-in"
+            />
+          </SwiperSlide>
         ))}
-      </div>
-    </div>
+
+        <div className="autoplay-progress" slot="container-end">
+          <svg viewBox="0 0 48 48" ref={progressCircle}>
+            <circle cx="24" cy="24" r="20"></circle>
+          </svg>
+          <span ref={progressContent}></span>
+        </div>
+      </Swiper>
+    </section>
+    // <div>
+    //   <HiChevronDoubleLeft className="hidden md:block text-white text-[30px] absolute mx-8 mt-[150px] cursor-pointer" onClick={()=>slideLeft(elementRef.current)}/>
+    //   <HiChevronDoubleRight className="hidden md:block text-white text-[30px] absolute mx-8 mt-[150px] cursor-pointer right-0" onClick={()=>slideRight(elementRef.current)} />
+
+    //   <div className="flex overflow-x-auto w-full px-16 py-4 scrollbar-none scroll-smooth" ref={elementRef}>
+    //     {movieList.map((item, index) => (
+    //       <img
+    //         src={Image_BASE_URL + item.backdrop_path}
+    //         alt=""
+    //         className="min-w-full md:h-[310px] object-cover object-left-top mr-5 rounded-md hover:border-[4px] border-gray-400 transition-all duration-100 ease-in"
+    //       />
+    //     ))}
+    //   </div>
+    // </div>
   );
 };
 

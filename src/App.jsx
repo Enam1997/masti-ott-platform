@@ -8,6 +8,11 @@ import ProductionHouse from "./layout/productionHouse/ProductionHouse";
 import GenreMovieList from "./layout/genreMovieList/GenreMovieList";
 import Footer from "./layout/footer/Footer";
 
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import 'swiper/css/free-mode';
+
 
 function App() {
   const [count, setCount] = useState(0);

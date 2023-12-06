@@ -1,15 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import GlobalApi from "../../services/GlobalApi";
 import "./slider.css";
-
-import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
-
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
@@ -19,8 +11,6 @@ const screenWidth = window.innerWidth;
 
 const Slider = () => {
   const [movieList, setMovieList] = useState([]);
-  const elementRef = useRef();
-
   const getTrendingMovies = () => {
     GlobalApi.getTrendingVideos.then((resp) => {
       console.log(resp.data.results);
@@ -30,14 +20,6 @@ const Slider = () => {
   useEffect(() => {
     getTrendingMovies();
   }, []);
-
-  const slideRight = (element) => {
-    element.scrollLeft += screenWidth - 110;
-  };
-
-  const slideLeft = (element) => {
-    element.scrollLeft -= screenWidth - 110;
-  };
 
   //
 
@@ -49,7 +31,7 @@ const Slider = () => {
   };
 
   return (
-    <section className=" md:px-16 py-4 ">
+    <section className="px-2 py-2 md:px-16 py-4 ">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}

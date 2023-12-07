@@ -50,8 +50,8 @@ const Header = () => {
 
         {/* large screen header */}
         <div className="hidden md:flex gap-8">
-          {menu.map((item) => (
-            <HeaderItem name={item.name} Icon={item.icon} />
+          {menu.map((item, index) => (
+            <HeaderItem key={index} name={item.name} Icon={item.icon} />
           ))}
         </div>
 
@@ -59,7 +59,7 @@ const Header = () => {
         <div className="flex md:hidden gap-5">
           {menu.map(
             (item, index) =>
-              index < 3 && <HeaderItem name={""} Icon={item.icon} />
+              index < 3 && <HeaderItem key={index} name={""} Icon={item.icon} />
           )}
           <div
             className="md:hidden"
@@ -73,7 +73,7 @@ const Header = () => {
                 {menu.map(
                   (item, index) =>
                     index > 2 && (
-                      <HeaderItem name={item.name} Icon={item.icon} />
+                      <HeaderItem key={index} name={item.name} Icon={item.icon} />
                     )
                 )}
               </div>

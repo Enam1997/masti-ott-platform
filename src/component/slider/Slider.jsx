@@ -37,7 +37,7 @@ const Slider = () => {
   };
 
   return (
-    <section className="px-2 py-2 md:px-16 py-4 ">
+    <section className="px-2 py-2 md:px-16 md:py-4 ">
       {trendingMovieDataLoading ? (
         <HeroSliderSkelton />
       ) : (

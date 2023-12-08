@@ -14,6 +14,7 @@ import HeaderItem from "../../component/headerItem/HeaderItem";
 const Header = () => {
   // mini scrren toggle click state
   const [hideMenuToggle, setHideMenuToggle] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
   // header menu item list
   const menu = [
@@ -42,6 +43,8 @@ const Header = () => {
       icon: HiTv,
     },
   ];
+
+  const profileMenu = ["profile", "yourwidhlist", "settings", "logout"];
 
   return (
     <div className="flex items-center  justify-between p-5">
@@ -73,7 +76,11 @@ const Header = () => {
                 {menu.map(
                   (item, index) =>
                     index > 2 && (
-                      <HeaderItem key={index} name={item.name} Icon={item.icon} />
+                      <HeaderItem
+                        key={index}
+                        name={item.name}
+                        Icon={item.icon}
+                      />
                     )
                 )}
               </div>
@@ -83,11 +90,28 @@ const Header = () => {
       </div>
 
       {/* right side profile image */}
-      <img
-        src="https://media.licdn.com/dms/image/C5603AQFO_bpgTYCePQ/profile-displayphoto-shrink_800_800/0/1612199719892?e=2147483647&v=beta&t=b9oJHXd2-U9BZ2mVZP5ZOa8iW6pexTc_bzQiaEYU5Yk"
-        alt=""
-        className="w-[40px] rounded-full"
-      />
+      <div className=" relative z-20">
+        <img
+          src="https://media.licdn.com/dms/image/C5603AQFO_bpgTYCePQ/profile-displayphoto-shrink_800_800/0/1612199719892?e=2147483647&v=beta&t=b9oJHXd2-U9BZ2mVZP5ZOa8iW6pexTc_bzQiaEYU5Yk"
+          alt=""
+          className="w-[40px] rounded-full border-4 border-gray-600 cursor-pointer"
+          onClick={()=>setProfileMenuOpen(!profileMenuOpen)}
+        />
+        {profileMenuOpen && (
+          <div className=" bg-black text-cyan-50 p-4 w-52 shadow-lg absolute left-[-160px] top-16">
+            <ul>
+              {profileMenu.map((item, index) => (
+                <li
+                  className=" p-2 text-lg cursor-pointer rounded hover:bg-blue-100 hover:text-black"
+                  key={index}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
